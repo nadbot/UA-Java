@@ -91,7 +91,6 @@ import org.opcfoundation.ua.core.ServiceFault;
 import org.opcfoundation.ua.core.SessionServiceSetHandler;
 import org.opcfoundation.ua.core.SignatureData;
 import org.opcfoundation.ua.core.StatusCodes;
-import org.opcfoundation.ua.core.MessageSecurityMode;
 import org.opcfoundation.ua.core.TestStackRequest;
 import org.opcfoundation.ua.core.TestStackResponse;
 import org.opcfoundation.ua.core.TranslateBrowsePathsToNodeIdsRequest;
@@ -103,7 +102,6 @@ import org.opcfoundation.ua.core.WriteRequest;
 import org.opcfoundation.ua.core.WriteResponse;
 import org.opcfoundation.ua.examples.certs.ExampleKeys;
 import org.opcfoundation.ua.transport.endpoint.EndpointServiceRequest;
-import org.opcfoundation.ua.transport.security.Cert;
 import org.opcfoundation.ua.transport.security.CertificateValidator;
 import org.opcfoundation.ua.transport.security.HttpsSecurityPolicy;
 import org.opcfoundation.ua.transport.security.KeyPair;
@@ -117,7 +115,7 @@ import org.opcfoundation.ua.utils.EndpointUtil;
  * Simple Server example. This server responds to stack test and endpoint discover service requests.
  * 
  */
-public class ServerExample1 {
+public class ServerExampleBackup {
 
 //	<ehamada>
 private	static ResponseHeader b;
@@ -163,8 +161,9 @@ private	static ResponseHeader b;
 					endpointAddress = "opc.tcp://"+hostname+":8666/UAExample";
 					System.out.println(endpointAddress+" bound at "+bindAddress);
 
-					bind(bindAddress, endpointAddress, SecurityMode.BASIC256SHA256_SIGN_ENCRYPT);
+					bind(bindAddress, endpointAddress, SecurityMode.ALL);
 				}
+				
 				//////////////////////////////////////
 							}
 
@@ -205,7 +204,7 @@ private	static ResponseHeader b;
 			res.setResults(new StatusCode[]{ StatusCode.GOOD});
 			
 //			<ehamada>
-			String[] c={"Hi","Test","1234","hgju","uiyghb","ilhyk"};
+			String[] c={"Hi","Hi","Hi!","hgju","uiyghb","ilhyk"};
 			 b=new ResponseHeader(null, null, null, null, c, null);
 			res.setResponseHeader(b);
 			System.out.println("TESTESTESTESTESTESTESTESTEST"+res+"TESTESTESTESTESTESTESTESTESTESTEST");

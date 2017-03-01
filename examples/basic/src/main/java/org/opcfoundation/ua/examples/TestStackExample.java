@@ -98,7 +98,7 @@ public class TestStackExample {
 		
 		/////////// DISCOVER ENDPOINT ////////
 		// Discover server's endpoints, and choose one
-		EndpointDescription[] endpoints = myClient.discoverEndpoints( "opc.tcp://"+hostname+":6002/" ); //51210=Sample Server
+		EndpointDescription[] endpoints = myClient.discoverEndpoints( "opc.tcp://"+hostname+":6002/UAExample" ); //51210=Sample Server
 		// Filter out all but opc.tcp protocol endpoints
 		endpoints = EndpointUtil.selectByProtocol(endpoints, "opc.tcp");
 		// Filter out all but Signed & Encrypted endpoints

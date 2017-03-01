@@ -34,14 +34,8 @@ import static org.opcfoundation.ua.utils.EndpointUtil.selectByProtocol;
 import static org.opcfoundation.ua.utils.EndpointUtil.selectBySecurityPolicy;
 import static org.opcfoundation.ua.utils.EndpointUtil.sortBySecurityLevel;
 
-import java.io.File;
-import java.security.cert.Certificate;
-import java.security.cert.X509Certificate;
 import java.util.Arrays;
 import java.util.Locale;
-import java.util.Scanner;
-
-import javax.print.DocFlavor.URL;
 
 import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.opcfoundation.ua.application.Application;
@@ -76,7 +70,6 @@ import org.opcfoundation.ua.transport.ChannelService;
 import org.opcfoundation.ua.transport.SecureChannel;
 import org.opcfoundation.ua.transport.ServiceChannel;
 import org.opcfoundation.ua.transport.UriUtil;
-import org.opcfoundation.ua.transport.security.Cert;
 import org.opcfoundation.ua.transport.security.CertificateValidator;
 import org.opcfoundation.ua.transport.security.HttpsSecurityPolicy;
 import org.opcfoundation.ua.transport.security.KeyPair;
@@ -91,7 +84,7 @@ import org.opcfoundation.ua.utils.EndpointUtil;
  * 
  * NOTE: Does not work against SeverExample1, since it does not support Browse
  */
-public class SampleClient {
+public class SampleClientBackup {
 
 	public static final Locale ENGLISH = Locale.ENGLISH;
 	public static final Locale ENGLISH_FINLAND = new Locale("en", "FI");
@@ -135,34 +128,11 @@ public class SampleClient {
 		KeyPair myHttpsCertificate = ExampleKeys.getHttpsCert("SampleClient"); 
 		myApplication.getHttpsSettings().setKeyPair( myHttpsCertificate );
 
-
 		
 		
-		
-		/////////// DISCOVER ENDPOINT ////////
-		// Discover server's endpoints, and choose one
-		EndpointDescription[] endpoints = myClient.discoverEndpoints( url); //51210=Sample Server
-		// Filter out all but Signed & Encrypted endpoints
-		endpoints = EndpointUtil.selectByMessageSecurityMode(endpoints, MessageSecurityMode.SignAndEncrypt);
-		// Filter out all but Basic128 cryption endpoints
-		endpoints = EndpointUtil.selectBySecurityPolicy(endpoints, SecurityPolicy.BASIC256SHA256);
-		// Sort endpoints by security level. The lowest level at the beginning, the highest at the end of the array
-		endpoints = EndpointUtil.sortBySecurityLevel(endpoints); 
-		// Choose one endpoint
-		EndpointDescription endpoint = endpoints[endpoints.length-1]; 
-		//////////////////////////////////////		
-		
-		
-		
-		
-		
-//		not necessary, because mySession creates a secure Channel+Session
-//		SecureChannel secureChannel = myClient.createSecureChannel(endpoint);
-//		System.out.println("SecureChannelSecurityPolicy:"+secureChannel.getSecurityPolicy());
 		
 		// Connect to the given uri
-		SessionChannel mySession = myClient.createSessionChannel(endpoints[0]);
-		System.out.println(mySession.getSecureChannel().getSecurityPolicy());
+		SessionChannel mySession = myClient.createSessionChannel(url);
 //		mySession.activate("username", "123");
 		mySession.activate();
 		//////////////////////////////////////		
@@ -206,8 +176,6 @@ public class SampleClient {
 		System.out.println(res4);
 		
 		/////////////  SHUTDOWN  /////////////
-		System.out.println("Press enter to shutdown");
-		System.in.read();
 		mySession.close();
 		mySession.closeAsync();
 		//////////////////////////////////////	
@@ -215,4 +183,7 @@ public class SampleClient {
 	}
 	
 }
+//SecureChannel secureChannel = myClient.createSecureChannel(URL, URL, SecurityMode.NONE, null);
+//ChannelService chan = new ChannelService(secureChannel);
+//EndpointDescription[] endpoints;
 
